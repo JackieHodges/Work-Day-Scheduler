@@ -1,5 +1,5 @@
 // display date at top of calendar
-
+$("#currentDay").text(moment().format("dddd, MMMM Do YYYY"));
 // time blocks display for standard buisness hours 9-5
 
 // time blocks are color coded based on past, present, or future
