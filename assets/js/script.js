@@ -5,10 +5,27 @@ $("#currentDay").text(moment().format("dddd, MMMM Do YYYY"));
 var hours = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"];
 
 for (var i = 0; i < 9; i++){
-    var hoursOfDay = $("<div>");
-    $(".container").append(hoursOfDay);
-    hoursOfDay.attr("class", "time-block row description");
-    hoursOfDay.text(hours[i]);
+    // create a new row
+    var newRow = $("<div>");
+    newRow.attr("class", "time-block row");
+    $(".container").append(newRow);
+
+    // assign a time to each row
+    var newTime = $("<div>");
+    newTime.attr("class", "col-1 hour");    
+    newTime.text(hours[i]);
+    $(newRow).append(newTime);
+
+    // create a text area for each row
+    var newTask = $("<textarea>");
+    newTask.attr("class", "col-10 description");
+    $(newRow).append(newTask);
+
+    // create a button for each row
+    var newButton = $("<button>");
+    newButton.attr("class", "saveBtn");
+    $(newRow).append(newButton);
+        
 }
 
 // time blocks are color coded based on past, present, or future
