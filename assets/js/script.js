@@ -18,13 +18,19 @@ for (var i = 0; i < 9; i++){
 
     // create a text area for each row
     var newTask = $("<textarea>");
-    newTask.attr("class", "col-10 description");
+    newTask.attr("class", "col-9 description");
     $(newRow).append(newTask);
 
     // create a button for each row
     var newButton = $("<button>");
     newButton.attr("class", "saveBtn");
     $(newRow).append(newButton);
+
+    // put image inside button
+    var newImage = $("<i>");
+    newImage.attr("class", "fa fa-folder");
+    newImage.attr("aria-hidden", true);
+    (newButton).append(newImage);
         
 }
 
