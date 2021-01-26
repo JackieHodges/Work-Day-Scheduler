@@ -26,6 +26,7 @@ for (var i = 0; i < 9; i++){
     // create a button for each row
     var newButton = $("<button>");
     newButton.attr("class", "saveBtn");
+    newButton.attr("value", hours[i]);
     $(newRow).append(newButton);
 
     // put image inside button
@@ -52,26 +53,57 @@ $("textarea").each(function(){
     var isSame = timeBlockTime.isSame(moment(currentTime, "h a"));
     var isAfter = timeBlockTime.isAfter(moment(currentTime, "h a"));
 
-    colorTimeBlock(isSame, isAfter);
-
-});
-
-// functions to change colors of time blocks based on past, present, or future
-function colorTimeBlock(isSame, isAfter){
+    // functions to change colors of time blocks based on past, present, or future
     if (isSame === true && isAfter === false){
         console.log("this is the current event");
         // add class of pressent
-        $("textarea").addClass("current");
+        $(this).attr("class", "col-8 description present");
     } else if (isSame == false && isAfter === true){
         console.log("this is a future event");
         // add class of future
-        $("textarea").addClass("future");
+        $(this).attr("class", "col-8 description future");
     } else {
         console.log("this is a past event");
         // add class of past
-        $("textarea").addClass("past");
+        $(this).attr("class", "col-8 description past");
     }
-}
+
+});
+
+// // functions to change colors of time blocks based on past, present, or future
+// function colorTimeBlock(isSame, isAfter){
+//     if (isSame === true && isAfter === false){
+//         console.log("this is the current event");
+//         // add class of pressent
+//         $(this).attr("class", "col-8 description current");
+//     } else if (isSame == false && isAfter === true){
+//         console.log("this is a future event");
+//         // add class of future
+//         $(this).attr("class", "col-8 description future");
+//     } else {
+//         console.log("this is a past event");
+//         // add class of past
+//         $(this).attr("class", "col-8 description past");
+//     }
+// }
+
 // when the save button is clicked, it is saved in local storage
+$("button").each(function(){
+    var buttonClicked = $(this);
+    buttonClicked.on("click", function(){
+        console.log("this button was clicked", buttonClicked);
+        var enteredTask = $("textarea").textContent;
+        localStorage.setItem("enteredTask", enteredTask);
+        renderLastSaved();
+    })
+})
 
 // when page is refreshed, the save events still exist
+function renderLastSaved(){
+    var enteredTask = localStorage.getItem("enteredTask");
+    if (enteredTask !== null){
+        var enteredTask = $("textarea").textContent;
+    }
+}
+
+renderLastSaved();
