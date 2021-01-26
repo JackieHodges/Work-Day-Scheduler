@@ -20,6 +20,7 @@ for (var i = 0; i < 9; i++){
     // create a text area for each row
     var newTask = $("<textarea>");
     newTask.attr("class", "col-8 description");
+    newTask.attr("value", hours[i]);
     $(newRow).append(newTask);
 
     // create a button for each row
@@ -35,13 +36,14 @@ for (var i = 0; i < 9; i++){
         
 }
 
-// time blocks are color coded based on past, present, or future
-$(".hour").each(function(){
-    console.log(this.textContent);
+// time blocks values are compared to current time 
+$("textarea").each(function(){
+    var thisTimeBlock = $(this).attr('value');
+    console.log("this value is", thisTimeBlock);
     var currentTime = moment().format("h a");
     console.log("the current time is", currentTime);
 
-    var timeBlockTime = moment(this.textContent, "h a");
+    var timeBlockTime = moment(thisTimeBlock, "h a");
 
     console.log("is before?", timeBlockTime.isBefore(moment(currentTime, "h a")));
     console.log("is current?", timeBlockTime.isSame(moment(currentTime, "h a")));
@@ -50,22 +52,26 @@ $(".hour").each(function(){
     var isSame = timeBlockTime.isSame(moment(currentTime, "h a"));
     var isAfter = timeBlockTime.isAfter(moment(currentTime, "h a"));
 
-    if (isSame === true && isAfter === false){
-        console.log("this is the current event");
-        // add class of pressent
-        $('.description').attr("class", "col-8 description present");
-    } else if (isSame == false && isAfter === true){
-        console.log("this is a future event");
-        // add class of future
-        $('.description').attr("class", "col-8 description future");
-    } else {
-        console.log("this is a past event");
-        // add class of past
-        $('.description').attr("class", "col-8 description past");
-    }
+    colorTimeBlock(isSame, isAfter);
 
 });
 
+// functions to change colors of time blocks based on past, present, or future
+function colorTimeBlock(isSame, isAfter){
+    if (isSame === true && isAfter === false){
+        console.log("this is the current event");
+        // add class of pressent
+        $("textarea").addClass("current");
+    } else if (isSame == false && isAfter === true){
+        console.log("this is a future event");
+        // add class of future
+        $("textarea").addClass("future");
+    } else {
+        console.log("this is a past event");
+        // add class of past
+        $("textarea").addClass("past");
+    }
+}
 // when the save button is clicked, it is saved in local storage
 
 // when page is refreshed, the save events still exist
