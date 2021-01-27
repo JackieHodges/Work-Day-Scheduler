@@ -3,7 +3,8 @@ $("#currentDay").text(moment().format("dddd, MMMM Do YYYY"));
 
 // time blocks display for standard buisness hours 9-5
 var hours = ["9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
-var hoursHolder = [];
+var taskList = [];
+var thisTextArea;
 
 for (var i = 0; i < 9; i++){
     // create a new row
@@ -26,7 +27,7 @@ for (var i = 0; i < 9; i++){
     // create a button for each row
     var newButton = $("<button>");
     newButton.attr("class", "saveBtn");
-    newButton.attr("value", hours[i]);
+    newButton.attr("id", hours[i]);
     $(newRow).append(newButton);
 
     // put image inside button
@@ -70,40 +71,47 @@ $("textarea").each(function(){
 
 });
 
-// // functions to change colors of time blocks based on past, present, or future
-// function colorTimeBlock(isSame, isAfter){
-//     if (isSame === true && isAfter === false){
-//         console.log("this is the current event");
-//         // add class of pressent
-//         $(this).attr("class", "col-8 description current");
-//     } else if (isSame == false && isAfter === true){
-//         console.log("this is a future event");
-//         // add class of future
-//         $(this).attr("class", "col-8 description future");
-//     } else {
-//         console.log("this is a past event");
-//         // add class of past
-//         $(this).attr("class", "col-8 description past");
-//     }
-// }
-
 // when the save button is clicked, it is saved in local storage
-$("button").each(function(){
-    var buttonClicked = $(this);
-    buttonClicked.on("click", function(){
-        console.log("this button was clicked", buttonClicked);
-        var enteredTask = $("textarea").textContent;
-        localStorage.setItem("enteredTask", enteredTask);
-        renderLastSaved();
+$("button").click( function(){
+    $("textarea").each(function(){
+        var thisTextArea = $(this).val();
+        if (thisTextArea != undefined){
+            console.log("type of", typeof thisTextArea);
+            console.log("entered task is", thisTextArea);
+        }
+        taskList.push(thisTextArea); 
     })
+    console.log("this is the task list", taskList);
+    storeTask();
+    renderLastSubmit();
+    
+
 })
 
-// when page is refreshed, the save events still exist
-function renderLastSaved(){
-    var enteredTask = localStorage.getItem("enteredTask");
-    if (enteredTask !== null){
-        var enteredTask = $("textarea").textContent;
-    }
+// store task list
+function storeTask(){
+    // var enteredTask =  $(".description").textContent;
+    localStorage.setItem("enteredTasks", JSON.stringify(taskList));
 }
 
-renderLastSaved();
+
+// // when page is refreshed, the saved events still exist
+function init(){
+    var enteredTask = JSON.parse(localStorage.getItem("enteredTasks"));
+    if (enteredTask !== null){
+        taskList = enteredTask;
+    }
+    renderLastSubmit();
+}
+
+// render last submit
+function renderLastSubmit(){
+    $("textarea").each(function(){
+        var existingTask = $(this).val();
+        existingTask = taskList[i];
+    })
+}
+
+// //run everytime the page is refreshed
+init();
+
