@@ -22,7 +22,7 @@ for (var i = 0; i < 9; i++){
     var newTask = $("<textarea>");
     newTask.attr("class", "col-8 description");
     newTask.attr("time", hours[i]);
-    newTask.attr("order", i);
+    newTask.attr("id", i);
     $(newRow).append(newTask);
 
     // create a button for each row
@@ -50,7 +50,6 @@ $("textarea").each(function(){
 
     console.log("is before?", timeBlockTime.isBefore(moment(currentTime, "h a")));
     console.log("is current?", timeBlockTime.isSame(moment(currentTime, "h a")));
-    console.log("this should be a formatted moment", moment(currentTime, "h a"));
 
     var isSame = timeBlockTime.isSame(moment(currentTime, "h a"));
     var isAfter = timeBlockTime.isAfter(moment(currentTime, "h a"));
@@ -78,7 +77,6 @@ $("button").click( function(){
     $("textarea").each(function(){
         var thisTextArea = $(this).val();
         if (thisTextArea != undefined){
-            console.log("type of", typeof thisTextArea);
             console.log("entered task is", thisTextArea);
         }
         taskList.push(thisTextArea); 
@@ -106,19 +104,36 @@ function init(){
 
 // render last submit
 function renderLastSubmit(){
-    for (var i = 0; i<taskList.length; i++){
-        var nextTextArea = $("textarea.order")
-        var nextTaskToAdd = taskList[i];
-        nextTextArea.append(nextTaskToAdd);
-        console.log("next time", nextTextArea);
-    }
-    // $("textarea").each(function(){
-    //     var existingTask = $(this).val();
-    //     existingTask = taskList[i];
-    // })
-}
+        var nextTextArea0 = $("textarea#0");
+        var nextTextArea1 = $("textarea#1");
+        var nextTextArea2 = $("textarea#2");
+        var nextTextArea3 = $("textarea#3");
+        var nextTextArea4 = $("textarea#4");
+        var nextTextArea5 = $("textarea#5");
+        var nextTextArea6 = $("textarea#6");
+        var nextTextArea7 = $("textarea#7");
+        var nextTextArea8 = $("textarea#8");
 
+        var nextTaskList0 = taskList[0];
+        var nextTaskList1 = taskList[1];
+        var nextTaskList2 = taskList[2];
+        var nextTaskList3 = taskList[3];
+        var nextTaskList4 = taskList[4];
+        var nextTaskList5 = taskList[5];
+        var nextTaskList6 = taskList[6];
+        var nextTaskList7 = taskList[7];
+        var nextTaskList8 = taskList[8];
+
+        nextTextArea0.append(nextTaskList0);
+        nextTextArea1.append(nextTaskList1);
+        nextTextArea2.append(nextTaskList2);
+        nextTextArea3.append(nextTaskList3);
+        nextTextArea4.append(nextTaskList4);
+        nextTextArea5.append(nextTaskList5);
+        nextTextArea6.append(nextTaskList6);
+        nextTextArea7.append(nextTaskList7);
+        nextTextArea8.append(nextTaskList8);
+}
 // //run everytime the page is refreshed
 init();
-console.log(taskList);
 
