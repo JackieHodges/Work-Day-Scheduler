@@ -21,7 +21,8 @@ for (var i = 0; i < 9; i++){
     // create a text area for each row
     var newTask = $("<textarea>");
     newTask.attr("class", "col-8 description");
-    newTask.attr("value", hours[i]);
+    newTask.attr("time", hours[i]);
+    newTask.attr("order", i);
     $(newRow).append(newTask);
 
     // create a button for each row
@@ -40,7 +41,7 @@ for (var i = 0; i < 9; i++){
 
 // time blocks values are compared to current time 
 $("textarea").each(function(){
-    var thisTimeBlock = $(this).attr('value');
+    var thisTimeBlock = $(this).attr('time');
     console.log("this value is", thisTimeBlock);
     var currentTime = moment().format("h a");
     console.log("the current time is", currentTime);
@@ -71,8 +72,9 @@ $("textarea").each(function(){
 
 });
 
-// when the save button is clicked, it is saved in local storage
+// when a save button is clicked, it is saved in local storage
 $("button").click( function(){
+    taskList=[];
     $("textarea").each(function(){
         var thisTextArea = $(this).val();
         if (thisTextArea != undefined){
@@ -84,18 +86,16 @@ $("button").click( function(){
     console.log("this is the task list", taskList);
     storeTask();
     renderLastSubmit();
-    
-
 })
 
-// store task list
+
+// store text content
 function storeTask(){
-    // var enteredTask =  $(".description").textContent;
     localStorage.setItem("enteredTasks", JSON.stringify(taskList));
 }
 
 
-// // when page is refreshed, the saved events still exist
+// // when page is refreshed, the save events still exist
 function init(){
     var enteredTask = JSON.parse(localStorage.getItem("enteredTasks"));
     if (enteredTask !== null){
@@ -106,12 +106,19 @@ function init(){
 
 // render last submit
 function renderLastSubmit(){
-    $("textarea").each(function(){
-        var existingTask = $(this).val();
-        existingTask = taskList[i];
-    })
+    for (var i = 0; i<taskList.length; i++){
+        var nextTextArea = $("textarea.order")
+        var nextTaskToAdd = taskList[i];
+        nextTextArea.append(nextTaskToAdd);
+        console.log("next time", nextTextArea);
+    }
+    // $("textarea").each(function(){
+    //     var existingTask = $(this).val();
+    //     existingTask = taskList[i];
+    // })
 }
 
 // //run everytime the page is refreshed
 init();
+console.log(taskList);
 
